@@ -1,7 +1,0 @@
-<Solution>
-  <Project Path="smartsurveybuilder.client/smartsurveybuilder.client.esproj">
-    <Build />
-    <Deploy />
-  </Project>
-  <Project Path="SmartSurveyBuilder.Server/SmartSurveyBuilder.Server.csproj" />
-</Solution>
