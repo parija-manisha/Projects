@@ -21,3 +21,32 @@ yarn-error.log*
 
 # Coverage
 coverage/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build folders
+bin/
+obj/
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# NuGet
+packages/
+*.nupkg
+
+# ASP.NET secrets
+appsettings.Development.json
+
+# OS files
+Thumbs.db
+.DS_Store
