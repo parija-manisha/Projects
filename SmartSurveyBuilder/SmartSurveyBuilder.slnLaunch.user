@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "smartsurveybuilder.client\\smartsurveybuilder.client.esproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "SmartSurveyBuilder.Server\\SmartSurveyBuilder.Server.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
