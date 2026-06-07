@@ -1,6 +1,0 @@
-@SmartSurveyBuilder.Server_HostAddress = http://localhost:5062
-
-GET {{SmartSurveyBuilder.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
