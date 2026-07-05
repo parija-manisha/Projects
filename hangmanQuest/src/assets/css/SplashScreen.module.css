@@ -1,0 +1,177 @@
+.splashScreen {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+
+  color: white;
+}
+
+.logoContainer {
+  z-index: 2;
+  text-align: center;
+  animation: fadeUp 1.2s ease;
+}
+
+.title {
+  margin: 0;
+  font-size: 72px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #ffe082;
+  text-shadow:
+    0 0 20px gold,
+    0 0 40px orange;
+}
+
+.subtitle {
+  width: 650px;
+  max-width: 90vw;
+  margin: auto;
+  margin-top: 25px;
+  font-size: 22px;
+  color: #ddd;
+  line-height: 1.8;
+}
+
+.loadingContainer {
+  width: 450px;
+  max-width: 90vw;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.loadingBar {
+  width: 100%;
+  height: 14px;
+  border-radius: 30px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd54f, #ff9800, #ffd54f);
+  animation: loading 3s infinite;
+  border-radius: 30px;
+}
+
+.loadingText {
+  margin-top: 20px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #eee;
+  animation: blink 1.5s infinite;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(white 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.35;
+  animation: starsMove 50s linear infinite;
+}
+
+.ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 180px;
+  background: radial-gradient(circle at center, #2e7d32, #1b5e20);
+  clip-path: polygon(
+    0 100%,
+    0 45%,
+    12% 60%,
+    24% 42%,
+    37% 63%,
+    49% 40%,
+    61% 60%,
+    75% 42%,
+    88% 65%,
+    100% 45%,
+    100% 100%
+  );
+}
+
+.playButtonContainer {
+  width: 90px;
+  height: 90px;
+  margin: 40px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #43a047, #1b5e20);
+  cursor: pointer;
+  transform-origin: center;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.playButtonContainer:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.35),
+    0 0 25px rgba(76,175,80,.6);
+}
+
+.playTriangle {
+  width: 0;
+  height: 0;
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+  border-left: 28px solid white;
+  margin-left: 6px;
+}
+
+@keyframes loading {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+
+    transform: translateY(50px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: none;
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes starsMove {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 1000px;
+  }
+}

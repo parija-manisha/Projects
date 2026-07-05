@@ -1,0 +1,134 @@
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.key {
+  position: relative;
+
+  width: 52px;
+  height: 56px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  outline: none;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    180deg,
+    #2d3d66,
+    #1a2238
+  );
+
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.key:hover:not(:disabled) {
+  transform: translateY(-3px);
+
+  background: linear-gradient(
+    180deg,
+    #4466cc,
+    #27408b
+  );
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.35),
+    0 0 15px rgba(120, 160, 255, 0.35);
+}
+
+.key:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+/* Every guessed letter */
+
+.guessed {
+  opacity: 0.55;
+  color: #ffffff;
+}
+
+.guessed::after {
+  content: "";
+
+  position: absolute;
+
+  left: 10%;
+  right: 10%;
+  top: 50%;
+
+  height: 3px;
+
+  background: #ff5252;
+
+  border-radius: 5px;
+
+  transform: translateY(-50%) rotate(-10deg);
+
+  box-shadow: 0 0 8px rgba(255, 82, 82, 0.7);
+}
+
+.key:disabled {
+  cursor: default;
+}
+
+/* Keep guessed keys from changing on hover */
+.key.guessed:hover {
+  transform: none;
+  background: linear-gradient(
+    180deg,
+    #2d3d66,
+    #1a2238
+  );
+
+  box-shadow: none;
+}
+
+@media (max-width: 700px) {
+  .key {
+    width: 40px;
+    height: 46px;
+    font-size: 16px;
+  }
+
+  .row {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .key {
+    width: 32px;
+    height: 38px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+
+  .row {
+    gap: 4px;
+  }
+}

@@ -1,0 +1,51 @@
+/* ================= Base pipe style ================= */
+.gallow {
+  stroke: #8b5a2b;
+  stroke-width: 6;
+  stroke-linecap: round;
+  fill: none;
+}
+
+/* ================= Player (red pipe) ================= */
+.pipe {
+  stroke: #e63946;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* ================= Rope tension effect ================= */
+.rope {
+  transform-origin: top;
+  animation: ropeTension 0.3s ease-out;
+}
+
+@keyframes ropeTension {
+  0% { transform: scaleY(0.6); }
+  100% { transform: scaleY(1); }
+}
+
+/* ================= Head pop ================= */
+.head {
+  animation: pop 0.25s ease-out;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ================= Game over swing ================= */
+.gameOver {
+  animation: swing 1.2s ease-in-out infinite;
+  transform-origin: 130px 60px;
+}
+
+@keyframes swing {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+  75% { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
+}
