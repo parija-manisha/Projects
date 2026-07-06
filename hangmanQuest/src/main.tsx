@@ -6,6 +6,7 @@ import SplashScreen from "./SplashScreen";
 import GameLayout from "./layouts/GameLayout";
 import { HomeScreen } from "./HomeScreen";
 import BattleScreen from "./BattleScreen";
+import WorldScreen from "./WorldScreen";
 
 export default function App() {
   return (
@@ -13,7 +14,8 @@ export default function App() {
       <Route element={<GameLayout />}>
         <Route path="/" element={<SplashScreen />} />
         <Route path="/home" element={<HomeScreen />} />
-        <Route path="/battle" element={<BattleScreen />} /> 
+        <Route path="/battle" element={<BattleScreen />} />
+        <Route path="/worlds" element={<WorldScreen />} />
       </Route>
     </Routes>
   );

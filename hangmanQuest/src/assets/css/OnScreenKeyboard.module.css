@@ -16,30 +16,23 @@
 
 .key {
   position: relative;
-
   width: 52px;
   height: 56px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   border: none;
   outline: none;
   border-radius: 12px;
-
   background: linear-gradient(
     180deg,
     #2d3d66,
     #1a2238
   );
-
   color: #ffffff;
   font-size: 18px;
   font-weight: 700;
-
   cursor: pointer;
-
   transition:
     transform 0.18s ease,
     background 0.2s ease,
@@ -49,13 +42,11 @@
 
 .key:hover:not(:disabled) {
   transform: translateY(-3px);
-
   background: linear-gradient(
     180deg,
     #4466cc,
     #27408b
   );
-
   box-shadow:
     0 8px 18px rgba(0, 0, 0, 0.35),
     0 0 15px rgba(120, 160, 255, 0.35);
@@ -65,8 +56,6 @@
   transform: scale(0.94);
 }
 
-/* Every guessed letter */
-
 .guessed {
   opacity: 0.55;
   color: #ffffff;
@@ -74,21 +63,14 @@
 
 .guessed::after {
   content: "";
-
   position: absolute;
-
   left: 10%;
   right: 10%;
   top: 50%;
-
   height: 3px;
-
   background: #ff5252;
-
   border-radius: 5px;
-
   transform: translateY(-50%) rotate(-10deg);
-
   box-shadow: 0 0 8px rgba(255, 82, 82, 0.7);
 }
 
@@ -96,7 +78,6 @@
   cursor: default;
 }
 
-/* Keep guessed keys from changing on hover */
 .key.guessed:hover {
   transform: none;
   background: linear-gradient(

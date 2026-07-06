@@ -1,16 +1,10 @@
-/* ==========================================
-   Battle Screen Layout
-========================================== */
-
 .battleScreen {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-
   width: 100%;
   min-height: 100%;
-
   padding: 24px;
   box-sizing: border-box;
 }
@@ -118,19 +112,14 @@
 .letterBox {
   width: 58px;
   height: 72px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   border-bottom: 4px solid #ffe082;
-
   font-size: 2rem;
   font-weight: 700;
   text-transform: uppercase;
-
   color: #ffe082;
-
   transition: all 0.25s ease;
 }
 
@@ -149,24 +138,10 @@
   width: 28px;
 }
 
-@keyframes reveal {
-  from {
-    transform: translateY(10px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
 .hint {
   margin: 0;
-
   font-size: 0.95rem;
   color: #d7d7d7;
-
   text-align: center;
 }
 
@@ -251,6 +226,39 @@
   box-shadow: 0 16px 30px rgba(255, 82, 82, 0.28);
 }
 
+.clueContainer {
+  width: 100%;
+  max-width: 650px;
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(12px);
+}
+
+.clueTitle {
+  margin: 0 0 12px;
+  color: #ffe082;
+}
+
+.clueText {
+  margin: 0;
+  color: #ddd;
+  line-height: 1.6;
+}
+
+@keyframes reveal {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 980px) {
   .battleMain {
     grid-template-columns: 1fr;
@@ -311,120 +319,6 @@
     aspect-ratio: auto;
     height: 320px;
   }
-}
-
-/* ==========================================
-   Word Section
-========================================== */
-
-.wordSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-
-.wordContainer {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.letterBox {
-  width: 58px;
-  height: 72px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-bottom: 4px solid #ffe082;
-
-  font-size: 2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-
-  color: #ffe082;
-
-  transition: all 0.25s ease;
-}
-
-.letterBox:hover {
-  transform: translateY(-4px);
-  border-bottom-color: white;
-}
-
-.guessedLetter {
-  color: #4caf50;
-  border-bottom-color: #4caf50;
-  animation: reveal .3s ease;
-}
-
-.space {
-  width: 28px;
-}
-
-/* ==========================================
-   Hint
-========================================== */
-
-.hint {
-  margin: 0;
-
-  font-size: .95rem;
-  color: #d7d7d7;
-
-  text-align: center;
-}
-
-.hintLabel {
-  color: #ffe082;
-  font-weight: 700;
-}
-
-/* ==========================================
-   Clue Card
-========================================== */
-
-.clueContainer {
-  width: 100%;
-  max-width: 650px;
-
-  padding: 20px;
-
-  border-radius: 18px;
-
-  background: rgba(255,255,255,.06);
-
-  border: 1px solid rgba(255,255,255,.08);
-
-  backdrop-filter: blur(12px);
-}
-
-.clueTitle {
-  margin: 0 0 12px;
-
-  color: #ffe082;
-}
-
-.clueText {
-  margin: 0;
-
-  color: #ddd;
-
-  line-height: 1.6;
-}
-
-/* ==========================
-   Hangman Area
-========================== */
-
-.hangmanContainer {
-  width: 100%;
-  max-width: 320px;
-  aspect-ratio: 3 / 4;
 }
 
 @media (max-width: 480px) {
