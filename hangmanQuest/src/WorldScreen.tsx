@@ -3,8 +3,8 @@ import PublicIcon from "@mui/icons-material/Public";
 import LockIcon from "@mui/icons-material/Lock";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
-import { worlds } from "./data/gameConstants";
 import styles from "./assets/css/WorldScreen.module.css";
+import { worlds } from "./data/gameData";
 
 export default function WorldScreen() {
   return (

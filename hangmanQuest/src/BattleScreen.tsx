@@ -1,41 +1,60 @@
 import { useMemo, useState } from "react";
 import OnScreenKeyboard from "./components/OnScreenKeyboard";
-import { WORDS } from "./data/wordsConstants";
-import styles from "./assets/css/BattleSceen.module.css";
 import HangmanSVG from "./components/HangmanSVG";
+
+import styles from "./assets/css/BattleSceen.module.css";
+
+import { WORDS_BY_MODE } from "./data/wordsConstants";
+import { GAMEMODE, WORLD } from "./data/gameConstants";
+import type { Word } from "./type";
 
 const MAX_WRONG = 6;
 
 export default function BattleScreen() {
-  const [currentWord, setCurrentWord] = useState(() => {
-    const randomIndex = Math.floor(Math.random() * WORDS.length);
-    return WORDS[randomIndex];
-  });
+const [gameMode] = useState(GAMEMODE.DAILY);
+const [selectedWorld] = useState(WORLD.ENCHANTED_FOREST);
+
+  const words =
+    gameMode === GAMEMODE.DAILY
+      ? WORDS_BY_MODE[GAMEMODE.DAILY]
+      : WORDS_BY_MODE[GAMEMODE.WORLD][selectedWorld];
+
+  const getRandomWord = () =>
+    words[Math.floor(Math.random() * words.length)];
+
+  const [currentWord, setCurrentWord] = useState<Word>(getRandomWord);
 
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   const incorrectLetters = useMemo(
-    () => guessedLetters.filter((letter) => !currentWord.word.toUpperCase().includes(letter)),
-    [guessedLetters, currentWord.word],
+    () =>
+      guessedLetters.filter(
+        (letter) => !currentWord.word.toUpperCase().includes(letter)
+      ),
+    [guessedLetters, currentWord]
   );
 
   const wrongCount = incorrectLetters.length;
   const remainingGuesses = Math.max(0, MAX_WRONG - wrongCount);
+
   const letters = currentWord.word.toUpperCase().split("");
   const correctWord = currentWord.word.toUpperCase();
-  const solved = letters.every((letter) => letter === " " || guessedLetters.includes(letter));
+
+  const solved = letters.every(
+    (letter) => letter === " " || guessedLetters.includes(letter)
+  );
+
   const gameOver = wrongCount >= MAX_WRONG;
-  const finished = gameOver || solved;
+  const finished = solved || gameOver;
 
   const handleLetterClick = (letter: string) => {
-    if (!guessedLetters.includes(letter) && !finished) {
-      setGuessedLetters((prev) => [...prev, letter]);
-    }
+    if (finished || guessedLetters.includes(letter)) return;
+
+    setGuessedLetters((prev) => [...prev, letter]);
   };
 
   const handleReset = () => {
-    const randomIndex = Math.floor(Math.random() * WORDS.length);
-    setCurrentWord(WORDS[randomIndex]);
+    setCurrentWord(getRandomWord());
     setGuessedLetters([]);
   };
 
@@ -47,7 +66,10 @@ export default function BattleScreen() {
           <h1 className={styles.pageTitle}>Hangman Quest</h1>
         </div>
 
-        <button className={styles.resetButton} onClick={handleReset}>
+        <button
+          className={styles.resetButton}
+          onClick={handleReset}
+        >
           New Word
         </button>
       </div>
@@ -59,13 +81,17 @@ export default function BattleScreen() {
               <span>Remaining</span>
               <strong>{remainingGuesses}</strong>
             </div>
+
             <div className={styles.statusCard}>
               <span>Missed</span>
               <strong>{wrongCount}</strong>
             </div>
+
             <div className={styles.statusCard}>
-              <span>Word length</span>
-              <strong>{letters.filter((letter) => letter !== " ").length}</strong>
+              <span>Word Length</span>
+              <strong>
+                {letters.filter((letter) => letter !== " ").length}
+              </strong>
             </div>
           </div>
 
@@ -73,22 +99,28 @@ export default function BattleScreen() {
             <div className={styles.wordContainer}>
               {letters.map((letter, index) =>
                 letter === " " ? (
-                  <span key={index} className={styles.space}></span>
+                  <span
+                    key={index}
+                    className={styles.space}
+                  />
                 ) : (
                   <span
                     key={index}
                     className={`${styles.letterBox} ${
-                      guessedLetters.includes(letter) ? styles.guessedLetter : ""
+                      guessedLetters.includes(letter)
+                        ? styles.guessedLetter
+                        : ""
                     }`}
                   >
                     {guessedLetters.includes(letter) ? letter : ""}
                   </span>
-                ),
+                )
               )}
             </div>
 
             <p className={styles.hint}>
-              <span className={styles.hintLabel}>Hint:</span> {currentWord.hint}
+              <span className={styles.hintLabel}>Hint:</span>{" "}
+              {currentWord.hint}
             </p>
           </div>
 
@@ -105,7 +137,11 @@ export default function BattleScreen() {
           </div>
 
           <div className={styles.gameStatus}>
-            {gameOver ? "Game Over" : solved ? "You Won!" : "Guess the word before the hangman falls."}
+            {gameOver
+              ? "Game Over"
+              : solved
+              ? "You Won!"
+              : "Guess the word before the hangman falls."}
           </div>
         </div>
       </div>
@@ -113,12 +149,24 @@ export default function BattleScreen() {
       {finished && (
         <div className={styles.overlay}>
           <div className={styles.overlayPanel}>
-            <p className={styles.overlayLabel}>{gameOver ? "Game Over" : "Victory"}</p>
+            <p className={styles.overlayLabel}>
+              {gameOver ? "Game Over" : "Victory"}
+            </p>
+
             <h2 className={styles.overlayTitle}>
-              {gameOver ? "The correct word was" : "You found the word!"}
+              {gameOver
+                ? "The correct word was"
+                : "You found the word!"}
             </h2>
-            <p className={styles.overlayWord}>{correctWord}</p>
-            <button className={styles.overlayButton} onClick={handleReset}>
+
+            <p className={styles.overlayWord}>
+              {correctWord}
+            </p>
+
+            <button
+              className={styles.overlayButton}
+              onClick={handleReset}
+            >
               New Word
             </button>
           </div>
