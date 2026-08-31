@@ -1,15 +1,32 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, CardContent, Stack } from "@mui/material";
-
+import { Button, Card, CardContent } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import ExploreIcon from "@mui/icons-material/Explore";
 import SettingsIcon from "@mui/icons-material/Settings";
-import PublicIcon from "@mui/icons-material/Public";
 
 import styles from "./assets/css/HomeSceen.module.css";
-import { modes } from "./data/gameConstants";
+import { modes, onlineModes } from "./data/gameData";
+import { getPlayerStats } from "./utils/playerStats";
 
 export function HomeScreen() {
   const navigate = useNavigate();
+  const [playerStats, setPlayerStats] = useState(() => getPlayerStats());
+
+  useEffect(() => {
+    const refreshStats = () => setPlayerStats(getPlayerStats());
+    window.addEventListener("focus", refreshStats);
+    window.addEventListener("pageshow", refreshStats);
+    window.addEventListener("storage", refreshStats);
+
+    return () => {
+      window.removeEventListener("focus", refreshStats);
+      window.removeEventListener("pageshow", refreshStats);
+      window.removeEventListener("storage", refreshStats);
+    };
+  }, []);
+
+  const allModes = [...modes, ...onlineModes];
 
   return (
     <div className={styles.homeScreen}>
@@ -17,57 +34,41 @@ export function HomeScreen() {
         <div className={styles.heroContent}>
           <div>
             <p className={styles.eyebrow}>Adventure Hub</p>
-
-            <h1>Welcome to Hangman Quest</h1>
-
+            <h1>Hangman Quest</h1>
             <p className={styles.subtitle}>
-              Travel through magical worlds, solve hidden words and unlock new
-              destinations with every correct guess.
+              Travel through magical worlds, solve hidden words and unlock new destinations with every correct guess.
             </p>
-
-            <Stack direction="row" spacing={1} className={styles.heroActions}>
-              <Button
-                variant="contained"
+            <div className={styles.heroActions}>
+              <Button 
+                variant="contained" 
                 startIcon={<PlayArrowIcon />}
-                size="large"
                 onClick={() => navigate("/battle")}
               >
-                Start Quest
+                START QUEST
               </Button>
-
-              <Button
-                variant="outlined"
-                startIcon={<PublicIcon />}
-                size="large"
+              <Button 
+                variant="outlined" 
+                startIcon={<ExploreIcon />}
                 onClick={() => navigate("/worlds")}
               >
-                Explore World
+                EXPLORE WORLD
               </Button>
-
-              <Button
-                variant="outlined"
+              <Button 
+                variant="outlined" 
                 startIcon={<SettingsIcon />}
-                size="large"
-                onClick={() => navigate("/settings")}
               >
-                Settings
+                SETTINGS
               </Button>
-            </Stack>
+            </div>
           </div>
 
           <div className={styles.statsPanel}>
             <div className={styles.statBox}>
-              <strong>12,480</strong>
+              <strong>{playerStats.xp.toLocaleString()}</strong>
               <span>XP</span>
             </div>
-
             <div className={styles.statBox}>
-              <strong>3,210</strong>
-              <span>Coins</span>
-            </div>
-
-            <div className={styles.statBox}>
-              <strong>48</strong>
+              <strong>{playerStats.wordsSolved.toLocaleString()}</strong>
               <span>Words</span>
             </div>
           </div>
@@ -76,27 +77,41 @@ export function HomeScreen() {
 
       <section className={styles.sectionPanel}>
         <div className={styles.sectionHeader}>
-          <div>
-            <h2>Choose a Mode</h2>
-          </div>
+          <h2>Choose a Mode</h2>
         </div>
 
         <div className={styles.modeGrid}>
-          {modes.map((mode) => {
+          {allModes.map((mode: typeof modes[0]) => {
             const Icon = mode.icon;
 
             return (
               <Card key={mode.title} className={styles.modeCard}>
-                <CardContent>
+                <CardContent className={styles.cardContentCompact}>
                   <div className={styles.modeIcon}>
                     <Icon />
                   </div>
 
-                  <h3>{mode.title}</h3>
-                  <p>{mode.description}</p>
+                  <h3 className={styles.modeTitle}>
+                    {mode.title}
+                  </h3>
+                  <p className={styles.modeDescription}>
+                    {mode.description}
+                  </p>
 
-                  <Button variant="contained" fullWidth onClick={() => navigate(mode.navigation || "/battle")}>
-                    Select
+                  <Button 
+                    variant="contained" 
+                    fullWidth 
+                    size="small"
+                    onClick={() => {
+                      if (mode.title === "Player 1 vs Player 2") {
+                        navigate("/player-setup");
+                      } else {
+                        navigate(mode.navigation || "/battle");
+                      }
+                    }}
+                    className={styles.playButton}
+                  >
+                    SELECT
                   </Button>
                 </CardContent>
               </Card>

@@ -1,36 +1,37 @@
 .keyboard {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.4rem;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 0.4rem;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .row {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 0.4rem;
   flex-wrap: nowrap;
 }
 
 .key {
   position: relative;
-  width: 52px;
-  height: 56px;
+  width: 36px;
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
   outline: none;
-  border-radius: 12px;
+  border-radius: 0.6rem;
   background: linear-gradient(
     180deg,
     #2d3d66,
     #1a2238
   );
   color: #ffffff;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition:

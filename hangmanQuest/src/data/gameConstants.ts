@@ -3,6 +3,7 @@ export const GAMEMODE = {
   CUSTOM: "customMode",
   PLAYER: "playerMode",
   DAILY: "dailyMode",
+  MULTIPLAYER: "multiplayerMode",
 } as const;
 
 

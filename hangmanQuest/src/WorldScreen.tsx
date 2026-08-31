@@ -2,11 +2,43 @@ import { Card, CardContent, Button, Chip } from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
 import LockIcon from "@mui/icons-material/Lock";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import styles from "./assets/css/WorldScreen.module.css";
 import { worlds } from "./data/gameData";
 
 export default function WorldScreen() {
+  const navigate = useNavigate();
+  const [playerScore, setPlayerScore] = useState(0);
+  const [worldsWithStatus, setWorldsWithStatus] = useState(worlds);
+
+  useEffect(() => {
+    const refreshScore = () => {
+      const saved = sessionStorage.getItem("playerScore");
+      const score = saved ? parseInt(saved, 10) : 0;
+      setPlayerScore(score);
+    };
+
+    refreshScore();
+
+    const updatedWorlds = worlds.map((world) => {
+      if (score >= world.unlockPoints) {
+        return { ...world, status: "Unlocked" as const };
+      } else if (
+        score >= (world.unlockPoints - 50) &&
+        world.unlockPoints > 0
+      ) {
+        return { ...world, status: "Next" as const };
+      } else {
+        return { ...world, status: "Locked" as const };
+      }
+    });
+    setWorldsWithStatus(updatedWorlds);
+
+    window.addEventListener("pageshow", refreshScore);
+    return () => window.removeEventListener("pageshow", refreshScore);
+  }, []);
   return (
     <section className={styles.sectionPanel}>
       <div className={styles.sectionHeader}>
@@ -20,13 +52,13 @@ export default function WorldScreen() {
 
         <Chip
           icon={<PublicIcon />}
-          label={`${worlds.length} Worlds`}
+          label={`${worldsWithStatus.length} Worlds`}
           color="primary"
         />
       </div>
 
       <div className={styles.worldGrid}>
-        {worlds.map((world) => (
+        {worldsWithStatus.map((world) => (
           <Card
             key={world.name}
             elevation={0}
@@ -60,6 +92,17 @@ export default function WorldScreen() {
                     }
                   />
                 </div>
+
+                {world.status === "Locked" && world.unlockPoints > 0 && (
+                  <p className={styles.description}>
+                    Unlock at {world.unlockPoints} points ({playerScore}/{world.unlockPoints})
+                  </p>
+                )}
+                {world.status === "Next" && world.unlockPoints > 0 && (
+                  <p className={styles.description}>
+                    {world.unlockPoints - playerScore} points to unlock
+                  </p>
+                )}
               </div>
 
               <div className={styles.buttonContainer}>
@@ -72,13 +115,13 @@ export default function WorldScreen() {
                       <LockIcon />
                     )
                   }
-                  disabled={world.status === "Locked"}
+                  disabled={world.status !== "Unlocked"}
+                  onClick={() =>
+                    world.status === "Unlocked" &&
+                    navigate("/battle", { state: { selectedWorld: world.id } })
+                  }
                 >
-                  {world.status === "Unlocked"
-                    ? "Play"
-                    : world.status === "Next"
-                    ? "Unlock"
-                    : "Locked"}
+                  {world.status === "Unlocked" ? "Play" : "Locked"}
                 </Button>
               </div>
             </CardContent>

@@ -1,49 +1,51 @@
 .homeScreen {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 0.75rem;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
   box-sizing: border-box;
   color: #f7f7ff;
-  min-height: 100vh;
-  max-height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background: transparent;
 }
 
 .heroCard {
-  padding: 1rem;
-  border-radius: 1.25rem;
+  padding: 0.6rem;
+  border-radius: 1rem;
   background: rgba(9, 21, 45, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  flex-shrink: 0;
 }
 
 .heroContent {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1rem;
+  gap: 0.75rem;
   align-items: center;
 }
 
 .eyebrow {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.2rem;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   color: #8ed7ff;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 .heroContent h1 {
-  margin: 0 0 0.5rem;
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  margin: 0 0 0.25rem;
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
 }
 
 .subtitle {
   margin: 0;
   max-width: 620px;
   color: #dfe7f8;
-  line-height: 1.6;
+  line-height: 1.4;
+  font-size: 0.95rem;
 }
 
 .heroActions {
@@ -55,40 +57,46 @@
 
 .heroActions button {
   min-width: 140px;
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
 }
 
 .statsPanel {
   display: grid;
-  grid-template-columns: repeat(3, minmax(80px, 1fr));
-  gap: 0.75rem;
-  min-width: 200px;
+  grid-template-columns: repeat(3, minmax(60px, 1fr));
+  gap: 0.5rem;
+  min-width: 150px;
 }
 
 .statBox {
-  padding: 0.85rem;
-  border-radius: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 0.7rem;
   background: rgba(255, 255, 255, 0.12);
   text-align: center;
 }
 
 .statBox strong {
   display: block;
-  font-size: 1.05rem;
-  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.15rem;
 }
 
 .statBox span {
   color: #dcebf9;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
 }
 
 .sectionPanel {
-  border-radius: 1rem;
+  border-radius: 0.9rem;
   overflow: hidden;
   background: rgba(10, 20, 39, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
-  padding: 1rem;
+  padding: 0.5rem;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .sectionHeader {
@@ -97,85 +105,109 @@
   justify-content: space-between;
   align-items: center;
   color: white;
-  margin-bottom: 1rem;
+  margin-bottom: 0.4rem;
+  flex-shrink: 0;
 }
 
 .sectionHeader h2 {
   margin: 0;
-  font-size: 1.45rem;
+  font-size: 1rem;
 }
 
-.sectionHeader{
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  color:white;
-}
-
-.sectionHeader h2{
-  margin:0;
-  font-size:1.45rem;
+.sectionHeader p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #bbb;
 }
 
 .modeGrid,
 .worldGrid {
   display: grid;
-  gap: 14px;
+  gap: 0.5rem;
+  overflow: hidden;
+  flex: 1;
 }
 
 .modeGrid {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .worldGrid {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
 .modeCard,
 .worldCard {
   background: rgba(255, 255, 255, 0.05) !important;
   color: white !important;
-  border-radius: 1rem !important;
+  border-radius: 0.8rem !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transform: translateY(0);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  overflow: hidden !important;
 }
 
 .modeCard:hover,
 .worldCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(0);
   border-color: rgba(255, 224, 130, 0.8);
   box-shadow: 0 18px 35px rgba(255, 224, 130, 0.12);
 }
 
 .modeIcon {
-  width: 35px;
-  height: 35px;
+  width: 24px;
+  height: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  margin-bottom: 14px;
+  margin-bottom: 0.4rem;
   background: radial-gradient(circle at top left, #5d84c4, #23386c);
   color: #ffdd6d;
 }
 
 .modeIcon svg,
 .worldIcon svg {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
+}
+
+.cardContentCompact {
+  padding: 0.5rem !important;
+}
+
+.modeTitle {
+  margin: 0.3rem 0 0.2rem !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+}
+
+.modeDescription {
+  margin: 0 0 0.4rem !important;
+  font-size: 0.8rem !important;
+  color: #bbb !important;
+  line-height: 1.3 !important;
+}
+
+.playButton {
+  margin-top: 0.3rem !important;
+  font-size: 0.75rem !important;
+  padding: 0.4rem 0.8rem !important;
+  height: auto !important;
 }
 
 .modeCard h3,
 .worldCard h3{
-  margin:0 0 10px;
+  margin: 0;
+  font-size: 0.75rem;
 }
 
 .modeCard p,
 .worldCard p{
-  color:#d7d7d7;
-  line-height:1.5;
-  margin-bottom:18px;
+  color: #999;
+  line-height: 1.15;
+  margin: 0;
+  font-size: 0.65rem;
 }
 
 .cardTop{
@@ -189,26 +221,42 @@
   font-size:2rem;
 }
 
+@media (max-width: 1200px) {
+  .modeGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 900px) {
   .homeScreen {
-    grid-template-rows: auto auto auto;
-    padding: 0.6rem;
+    padding: 0.4rem;
   }
 
   .heroContent {
     grid-template-columns: 1fr;
   }
 
-  .statsPanel,
-  .modeGrid,
-  .worldGrid {
+  .modeGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statsPanel {
     width: 100%;
-    grid-template-columns: 1fr;
   }
 
   .sectionHeader {
     gap: 12px;
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .modeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroContent {
+    grid-template-columns: 1fr;
   }
 }
