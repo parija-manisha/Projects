@@ -170,7 +170,7 @@ export default function WaitingForPlayerScreen() {
                       rows={2}
                       size="small"
                       slotProps={{
-                        input: {
+                        htmlInput: {
                           readOnly: true,
                         },
                       }}
