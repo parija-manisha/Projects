@@ -166,10 +166,14 @@ export default function WaitingForPlayerScreen() {
                       fullWidth
                       variant="outlined"
                       value={`${window.location.origin}${window.location.pathname}#/join-game/${gameCode}`}
-                      readOnly
                       multiline
                       rows={2}
                       size="small"
+                      slotProps={{
+                        input: {
+                          readOnly: true,
+                        },
+                      }}
                     />
                     <Button
                       variant="outlined"

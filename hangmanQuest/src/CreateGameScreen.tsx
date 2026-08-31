@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, CardContent, Stack, Alert } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -166,10 +166,14 @@ export default function CreateGameScreen() {
                         fullWidth
                         variant="outlined"
                         value={`${window.location.origin}${window.location.pathname}#/join-game/${gameCode}`}
-                        readOnly
                         multiline
                         rows={2}
                         size="small"
+                        slotProps={{
+                          input: {
+                            readOnly: true,
+                          },
+                        }}
                       />
                       <Button
                         variant="outlined"

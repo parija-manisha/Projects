@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import OnScreenKeyboard from "./components/OnScreenKeyboard";
 import HangmanSVG from "./components/HangmanSVG";
@@ -8,7 +8,8 @@ import styles from "./assets/css/BattleSceen.module.css";
 import { WORDS_BY_MODE } from "./data/wordsConstants";
 import { GAMEMODE } from "./data/gameConstants";
 import { getGameSession, updateGameSession, deleteGameSession } from "./utils/gameSession";
-import type { Word, GameSession } from "./utils/gameSession";
+import type { Word } from "./type";
+import type { GameSession } from "./utils/gameSession";
 
 const MAX_WRONG = 6;
 const CORRECT_WORD_POINTS = 10;
@@ -21,7 +22,6 @@ export default function OnlineMultiplayerBattleScreen() {
 
   const gameCode = location.state?.gameCode || "";
   const playerNumber = location.state?.playerNumber || 1;
-  const playerName = location.state?.playerName || `Player ${playerNumber}`;
 
   const words = WORDS_BY_MODE[GAMEMODE.MULTIPLAYER] || [];
   const [lastWordIndex, setLastWordIndex] = useState(-1);

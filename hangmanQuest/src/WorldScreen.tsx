@@ -18,17 +18,14 @@ export default function WorldScreen() {
       const saved = sessionStorage.getItem("playerScore");
       const score = saved ? parseInt(saved, 10) : 0;
       setPlayerScore(score);
+      return score;
     };
 
-    refreshScore();
-
+    const score = refreshScore();
     const updatedWorlds = worlds.map((world) => {
       if (score >= world.unlockPoints) {
         return { ...world, status: "Unlocked" as const };
-      } else if (
-        score >= (world.unlockPoints - 50) &&
-        world.unlockPoints > 0
-      ) {
+      } else if (score >= world.unlockPoints - 50 && world.unlockPoints > 0) {
         return { ...world, status: "Next" as const };
       } else {
         return { ...world, status: "Locked" as const };
@@ -36,9 +33,36 @@ export default function WorldScreen() {
     });
     setWorldsWithStatus(updatedWorlds);
 
-    window.addEventListener("pageshow", refreshScore);
-    return () => window.removeEventListener("pageshow", refreshScore);
+    const handlePageShow = () => {
+      const nextScore = refreshScore();
+      const recalculatedWorlds = worlds.map((world) => {
+        if (nextScore >= world.unlockPoints) {
+          return { ...world, status: "Unlocked" as const };
+        } else if (nextScore >= world.unlockPoints - 50 && world.unlockPoints > 0) {
+          return { ...world, status: "Next" as const };
+        } else {
+          return { ...world, status: "Locked" as const };
+        }
+      });
+      setWorldsWithStatus(recalculatedWorlds);
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
+
+  useEffect(() => {
+    const updatedWorlds = worlds.map((world) => {
+      if (playerScore >= world.unlockPoints) {
+        return { ...world, status: "Unlocked" as const };
+      } else if (playerScore >= world.unlockPoints - 50 && world.unlockPoints > 0) {
+        return { ...world, status: "Next" as const };
+      } else {
+        return { ...world, status: "Locked" as const };
+      }
+    });
+    setWorldsWithStatus(updatedWorlds);
+  }, [playerScore]);
   return (
     <section className={styles.sectionPanel}>
       <div className={styles.sectionHeader}>

@@ -121,15 +121,17 @@ export default function JoinGameScreen() {
                       value={gameCode}
                       onChange={(e) => setGameCode(e.target.value.toUpperCase())}
                       placeholder="e.g., ABC123"
-                      inputProps={{
-                        style: {
-                          fontSize: "24px",
-                          letterSpacing: "4px",
-                          textAlign: "center",
-                          fontFamily: "monospace",
+                      maxLength={6}
+                      slotProps={{
+                        input: {
+                          style: {
+                            fontSize: "24px",
+                            letterSpacing: "4px",
+                            textAlign: "center",
+                            fontFamily: "monospace",
+                          },
                         },
                       }}
-                      maxLength={6}
                     />
                   </div>
 
