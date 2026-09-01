@@ -21,6 +21,8 @@ export default function BattleScreen() {
   const [selectedWorld, setSelectedWorld] = useState<string | null>(
     (location.state?.selectedWorld as string) || null
   );
+  const customWord = (location.state?.customWord as string | undefined) || null;
+  const customHint = (location.state?.customHint as string | undefined) || null;
   const [totalScore, setTotalScore] = useState(() => {
     const saved = sessionStorage.getItem("playerScore");
     return saved ? parseInt(saved) : 0;
@@ -33,18 +35,27 @@ export default function BattleScreen() {
     setSelectedWorld(location.state?.selectedWorld || null);
   }, [location]);
 
+  const resolvedWords = useMemo(() => {
+    if (customWord) {
+      const sanitized = customWord.trim();
+      return [{ word: sanitized, hint: customHint || "Solve the hidden word." }];
+    }
+
+    return selectedWorld
+      ? WORDS_BY_MODE[GAMEMODE.WORLD][selectedWorld] || []
+      : WORDS_BY_MODE[GAMEMODE.DAILY];
+  }, [customWord, customHint, selectedWorld]);
+
   useEffect(() => {
     sessionStorage.setItem("playerScore", totalScore.toString());
   }, [totalScore]);
 
-  const words = selectedWorld
-    ? WORDS_BY_MODE[GAMEMODE.WORLD][selectedWorld] || []
-    : WORDS_BY_MODE[GAMEMODE.DAILY];
+  const words = resolvedWords;
 
   const getRandomWord = () => {
-    if (words.length === 0) return words[0];
+    if (words.length === 0) return undefined;
     if (words.length === 1) return words[0];
-    
+
     let newIndex = Math.floor(Math.random() * words.length);
     while (newIndex === lastWordIndex && words.length > 1) {
       newIndex = Math.floor(Math.random() * words.length);
@@ -53,14 +64,14 @@ export default function BattleScreen() {
     return words[newIndex];
   };
 
-  const [currentWord, setCurrentWord] = useState<Word>(getRandomWord);
+  const [currentWord, setCurrentWord] = useState<Word | undefined>(() => getRandomWord());
 
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   const incorrectLetters = useMemo(
     () =>
       guessedLetters.filter(
-        (letter) => !currentWord.word.toUpperCase().includes(letter)
+        (letter) => !currentWord?.word.toUpperCase().includes(letter)
       ),
     [guessedLetters, currentWord]
   );
@@ -68,8 +79,8 @@ export default function BattleScreen() {
   const wrongCount = incorrectLetters.length;
   const remainingGuesses = Math.max(0, MAX_WRONG - wrongCount);
 
-  const letters = currentWord.word.toUpperCase().split("");
-  const correctWord = currentWord.word.toUpperCase();
+  const letters = currentWord ? currentWord.word.toUpperCase().split("") : [];
+  const correctWord = currentWord ? currentWord.word.toUpperCase() : "";
 
   const solved = letters.every(
     (letter) => letter === " " || guessedLetters.includes(letter)
@@ -88,6 +99,8 @@ export default function BattleScreen() {
 
   const handleLetterClick = (letter: string) => {
     if (finished || guessedLetters.includes(letter)) return;
+
+    if (!currentWord) return;
 
     const isCorrect = currentWord.word.toUpperCase().includes(letter);
     if (isCorrect) {
@@ -113,9 +126,16 @@ export default function BattleScreen() {
       recordProgress(CORRECT_WORD_POINTS, 1);
       addPointChange(CORRECT_WORD_POINTS);
     }
-    setCurrentWord(getRandomWord());
+    const nextWord = getRandomWord();
+    if (nextWord) {
+      setCurrentWord(nextWord);
+    }
     setGuessedLetters([]);
   };
+
+  if (!currentWord) {
+    return <div className={styles.battleScreen}>No word available</div>;
+  }
 
   const selectedWorldName = selectedWorld
     ? worlds.find((w) => w.id === selectedWorld)?.name || "Daily Quest"

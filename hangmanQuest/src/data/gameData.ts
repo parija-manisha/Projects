@@ -2,7 +2,6 @@ import { WORLD } from "./gameConstants";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import PublicIcon from "@mui/icons-material/Public";
 
 export const worlds = [
@@ -48,7 +47,7 @@ export const modes = [
     title: "Custom Hangman",
     description: "Create your own word and play your way.",
     icon: AutoAwesomeIcon,
-    navigation: "/battle",
+    navigation: "/custom-hangman",
   },
   {
     title: "Player 1 vs Player 2",
@@ -61,12 +60,6 @@ export const modes = [
     description: "Play today's special word challenge.",
     icon: CalendarTodayIcon,
     navigation: "/battle",
-  },
-  {
-    title: "New World",
-    description: "Start a fresh adventure in a new realm.",
-    icon: AddCircleOutlinedIcon,
-    navigation: "/worlds",
   },
 ];
 

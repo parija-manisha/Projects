@@ -49,7 +49,7 @@ export function HomeScreen() {
               <Button 
                 variant="outlined" 
                 startIcon={<ExploreIcon />}
-                onClick={() => navigate("/worlds")}
+                onClick={() => navigate("/world")}
               >
                 EXPLORE WORLD
               </Button>

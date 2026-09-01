@@ -12,6 +12,7 @@ import CreateGameScreen from "./CreateGameScreen";
 import JoinGameScreen from "./JoinGameScreen";
 import WaitingForPlayerScreen from "./WaitingForPlayerScreen";
 import OnlineMultiplayerBattleScreen from "./OnlineMultiplayerBattleScreen";
+import CustomHangmanScreen from "./CustomHangmanScreen";
 import WorldScreen from "./WorldScreen";
 
 export default function App() {
@@ -28,7 +29,8 @@ export default function App() {
         <Route path="/join-game/:code" element={<JoinGameScreen />} />
         <Route path="/waiting-for-player" element={<WaitingForPlayerScreen />} />
         <Route path="/online-battle" element={<OnlineMultiplayerBattleScreen />} />
-        <Route path="/worlds" element={<WorldScreen />} />
+        <Route path="/custom-hangman" element={<CustomHangmanScreen />} />
+        <Route path="/world" element={<WorldScreen />} />
       </Route>
     </Routes>
   );

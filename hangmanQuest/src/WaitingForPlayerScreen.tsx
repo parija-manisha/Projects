@@ -5,7 +5,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 import styles from "./assets/css/HomeSceen.module.css";
-import { getGameSession } from "./utils/gameSession";
+import { getGameSession, updateGameSession } from "./utils/gameSession";
 
 export default function WaitingForPlayerScreen() {
   const location = useLocation();
@@ -16,7 +16,6 @@ export default function WaitingForPlayerScreen() {
   const [copied, setCopied] = useState(false);
   const [player2Joined, setPlayer2Joined] = useState(false);
   const [player2Name, setPlayer2Name] = useState("");
-  const [autoStarted, setAutoStarted] = useState(false);
 
   useEffect(() => {
     if (!gameCode) {
@@ -24,32 +23,27 @@ export default function WaitingForPlayerScreen() {
       return;
     }
 
-    // Poll for Player 2 joining every 1 second
-    const interval = setInterval(() => {
+    const syncPlayer2Status = () => {
       const session = getGameSession(gameCode);
       if (session && session.player2Name) {
         setPlayer2Joined(true);
         setPlayer2Name(session.player2Name);
-        clearInterval(interval);
-
-        // Auto-start game after 2 seconds
-        if (!autoStarted) {
-          setTimeout(() => {
-            navigate("/online-battle", {
-              state: {
-                gameCode: gameCode,
-                playerNumber: 1,
-                playerName: playerName,
-              },
-            });
-            setAutoStarted(true);
-          }, 2000);
-        }
+        return true;
       }
+
+      setPlayer2Joined(false);
+      setPlayer2Name("");
+      return false;
+    };
+
+    syncPlayer2Status();
+
+    const interval = setInterval(() => {
+      syncPlayer2Status();
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [gameCode, navigate, playerName, autoStarted]);
+  }, [gameCode, navigate]);
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(gameCode);
@@ -65,6 +59,22 @@ export default function WaitingForPlayerScreen() {
   };
 
   const handleStartGame = () => {
+    const session = getGameSession(gameCode);
+    if (session && !session.currentWord) {
+      const words = [
+        { word: "PLANET", hint: "A world that orbits a star." },
+        { word: "CASTLE", hint: "A large fortified building." },
+        { word: "ROCKET", hint: "A vehicle that launches into space." },
+        { word: "GARDEN", hint: "A place where flowers and plants grow." },
+        { word: "TREASURE", hint: "Something valuable hidden or found." },
+      ];
+
+      const randomWord = words[Math.floor(Math.random() * words.length)];
+      session.currentWord = randomWord.word;
+      session.currentHint = randomWord.hint;
+      updateGameSession(session);
+    }
+
     navigate("/online-battle", {
       state: {
         gameCode: gameCode,
@@ -187,7 +197,7 @@ export default function WaitingForPlayerScreen() {
 
                   {player2Joined ? (
                     <Alert severity="success">
-                      <strong>{player2Name}</strong> has joined! Starting game...
+                      <strong>{player2Name}</strong> has joined! You can start the match now.
                     </Alert>
                   ) : (
                     <Alert severity="info">
@@ -199,16 +209,15 @@ export default function WaitingForPlayerScreen() {
                   )}
 
                   <Stack direction="row" spacing={2}>
-                    {player2Joined && (
-                      <Button
-                        variant="contained"
-                        fullWidth
-                        onClick={handleStartGame}
-                        size="large"
-                      >
-                        Start Game
-                      </Button>
-                    )}
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={handleStartGame}
+                      size="large"
+                      disabled={!player2Joined}
+                    >
+                      Start Game
+                    </Button>
 
                     <Button
                       variant="outlined"
